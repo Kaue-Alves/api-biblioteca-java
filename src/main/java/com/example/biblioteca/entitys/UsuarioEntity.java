@@ -1,5 +1,6 @@
 package com.example.biblioteca.entitys;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,8 @@ public class UsuarioEntity {
   private long id;
   private String nome;
   private String email;
+  //cpf deve ser único
+  @Column(unique = true)
   private String cpf;
 
   public UsuarioEntity() {
