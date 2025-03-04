@@ -4,26 +4,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "usuarios")
 public class UsuarioEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private String nome;
   private String email;
+  private String cpf;
 
   public UsuarioEntity() {
   }
 
-  public UsuarioEntity(long id, String nome, String email) {
+  
+  public UsuarioEntity(long id, String nome, String email, String cpf) {
     this.id = id;
     this.nome = nome;
     this.email = email;
-  }
-
-  public UsuarioEntity(String nome) {
-    this.nome = nome;
+    this.cpf = cpf;
   }
 
   public long getId() {
@@ -50,4 +51,11 @@ public class UsuarioEntity {
     this.email = email;
   }
 
+  public String getCpf() {
+    return cpf;
+  }
+
+  public void setCpf(String cpf) {
+    this.cpf = cpf;
+  }
 }

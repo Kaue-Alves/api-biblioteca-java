@@ -19,19 +19,19 @@ import com.example.biblioteca.repository.UsuarioRepository;
 public class UsuarioController {
 
   @Autowired
-  private UsuarioRepository usuarioRepostiory;
+  private UsuarioRepository usuarioRepository;
 
   @GetMapping()
   public List<UsuarioEntity> listaTodosUsuarios(@RequestParam(required = false) String nome) {
     if (nome != null) {
-      return usuarioRepostiory.findByNome(nome);
+      return usuarioRepository.findByNome(nome);
     }
-    return usuarioRepostiory.findAll();
+    return usuarioRepository.findAll();
   }
 
   @PostMapping
   public ResponseEntity<String> addUsuario(@RequestBody UsuarioEntity usuario) {
-    usuarioRepostiory.save(usuario);
+    usuarioRepository.save(usuario);
     return ResponseEntity.ok().build();
   }
 
