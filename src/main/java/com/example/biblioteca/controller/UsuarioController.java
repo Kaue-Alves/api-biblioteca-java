@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.biblioteca.DTO.UsuarioDTO;
 import com.example.biblioteca.entitys.UsuarioEntity;
 import com.example.biblioteca.repository.UsuarioRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -31,13 +34,15 @@ public class UsuarioController {
   }
 
   @PostMapping
-  public ResponseEntity<String> addUsuario(@RequestBody UsuarioEntity usuario) {
-    usuarioRepository.save(usuario);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<UsuarioEntity> criarUsuario(@RequestBody @Valid UsuarioDTO dados) {
+    UsuarioEntity usuarioCriado = new UsuarioEntity(dados);
+
+    this.usuarioRepository.save(usuarioCriado);
+    return ResponseEntity.ok(usuarioCriado);
   }
 
   @DeleteMapping
-  public ResponseEntity<String> deleteUsuario(@RequestParam long id) {
+  public ResponseEntity<String> deletarUsuario(@RequestParam long id) {
     usuarioRepository.deleteById(id);
     return ResponseEntity.ok().build();
   }
