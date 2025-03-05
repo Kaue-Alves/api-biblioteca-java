@@ -8,7 +8,7 @@ public class BibliotecaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BibliotecaApplication.class, args);
-		System.out.println("Hello World");
+		System.out.println("Aplicação Rodando");
 	}
 
 }
