@@ -1,5 +1,8 @@
 package com.example.biblioteca.entitys;
 
+import com.example.biblioteca.DTO.LivroDTO;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,22 +15,32 @@ public class LivroEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
     private String autor;
+
+    @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private String editora;
+
+    @Column(nullable = false)
     private int ano;
-    private boolean emprestado;
+
+    @Column(nullable = false)
+    private boolean emprestado = false; // Valor padrão
 
     public LivroEntity() {
+        this.emprestado = false; // Definindo valor padrão no construtor
     }
 
-    public LivroEntity(long id, String autor, String titulo, String editora, int ano) {
-        this.id = id;
-        this.autor = autor;
-        this.titulo = titulo;
-        this.editora = editora;
-        this.ano = ano;
-        this.emprestado = false;
+    public LivroEntity(LivroDTO livroDTO) {
+        this.autor = livroDTO.autor();
+        this.titulo = livroDTO.titulo();
+        this.editora = livroDTO.editora();
+        this.ano = livroDTO.ano();
+        this.emprestado = false; // Sempre falso ao criar
     }
 
     public long getId() {
