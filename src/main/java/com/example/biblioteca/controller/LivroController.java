@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.biblioteca.repository.LivroRepository;
 
@@ -42,7 +41,6 @@ public class LivroController {
   }
 
   @GetMapping("/{id}")
-
   public ResponseEntity<LivroEntity> buscarLivroPorId(@PathVariable long id) {
 
     LivroEntity livro = this.livroRepository.findById(id).orElse(null);
@@ -53,6 +51,32 @@ public class LivroController {
     }
 
     return ResponseEntity.ok(livro);
+
+  }
+
+  @GetMapping("/emprestados")
+  public ResponseEntity<List<LivroEntity>> buscarLivrosEmprestados() {
+
+    List<LivroEntity> livros = this.livroRepository.findByEmprestado(true);
+
+    if (livros.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(livros);
+
+  }
+
+  @GetMapping("/disponiveis")
+  public ResponseEntity<List<LivroEntity>> buscarLivrosDisponiveis() {
+
+    List<LivroEntity> livros = this.livroRepository.findByEmprestado(false);
+
+    if (livros.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(livros);
 
   }
 
@@ -86,19 +110,40 @@ public class LivroController {
   }
 
   @PatchMapping("/{id}/emprestar")
-public ResponseEntity<LivroEntity> alterarEmprestado(@PathVariable long id) {
+  public ResponseEntity<LivroEntity> emprestarLivro(@PathVariable long id) {
     LivroEntity livro = this.livroRepository.findById(id).orElse(null);
 
     if (livro == null) {
-        return ResponseEntity.notFound().build();
+      return ResponseEntity.notFound().build();
     }
 
-    livro.setEmprestado(!livro.isEmprestado());
-    this.livroRepository.save(livro);
+    if (!livro.isEmprestado()) {
+      livro.setEmprestado(true);
+      this.livroRepository.save(livro);
+    } else {
+      return ResponseEntity.badRequest().body(null);
+    }
 
     return ResponseEntity.ok(livro);
-}
+  }
 
+  @PatchMapping("/{id}/devolver")
+  public ResponseEntity<LivroEntity> devolverLivro(@PathVariable long id) {
+    LivroEntity livro = this.livroRepository.findById(id).orElse(null);
+
+    if (livro == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    if (livro.isEmprestado()) {
+      livro.setEmprestado(false);
+      this.livroRepository.save(livro);
+    } else {
+      return ResponseEntity.badRequest().body(null);
+    }
+
+    return ResponseEntity.ok(livro);
+  }
 
   // deleção de usuario
 

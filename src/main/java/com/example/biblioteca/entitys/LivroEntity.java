@@ -29,7 +29,7 @@ public class LivroEntity {
     private int ano;
 
     @Column(nullable = false)
-    private boolean emprestado = false; // Valor padrão
+    private boolean emprestado;
 
     public LivroEntity() {
         this.emprestado = false; // Definindo valor padrão no construtor
@@ -91,5 +91,4 @@ public class LivroEntity {
         this.emprestado = emprestado;
     }
 
-    
 }
