@@ -29,7 +29,6 @@ public class EmprestimoEntity {
     @JoinColumn(name = "livro_id", nullable = false)
     private LivroEntity livro;
 
-    // Andamento - Devolvido - Atrasado
     @Column(nullable = false)
     private String status;
 
@@ -45,13 +44,10 @@ public class EmprestimoEntity {
     public EmprestimoEntity() {
     }
 
-    public EmprestimoEntity(EmprestimoDTO emprestimoDTO) {
-        this.usuario = new UsuarioEntity();
-        this.usuario.setId(emprestimoDTO.usuarioId());
-        this.livro = new LivroEntity();
-        this.livro.setId(emprestimoDTO.livroId());
+    public EmprestimoEntity(EmprestimoDTO emprestimoDTO, UsuarioEntity usuario, LivroEntity livro) {
+        this.usuario = usuario;
+        this.livro = livro;
         this.status = "ANDAMENTO";
-        // pegar data atual
         this.dataEmprestimo = LocalDateTime.now();
         this.dataDevolucao = emprestimoDTO.dataDevolucao();
         this.multa = 0;

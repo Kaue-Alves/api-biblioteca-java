@@ -4,7 +4,5 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotNull;
 
-public record EmprestimoDTO(@NotNull long usuarioId, @NotNull long livroId, @NotNull String status,
-        @NotNull LocalDateTime dataEmprestimo, @NotNull LocalDateTime dataDevolucao, float multa) {
-
+public record EmprestimoDTO(@NotNull long usuario, @NotNull long livro, @NotNull LocalDateTime dataDevolucao) {
 }
